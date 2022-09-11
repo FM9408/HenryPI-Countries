@@ -1,0 +1,20 @@
+#searchbar {
+    width: fit-content;
+    height: fit-content;
+}
+
+
+#searchbarInput {
+    width: 16em;
+    height: 2em;
+    border-radius: 15px;
+    background-color: rgba(255, 235, 205, 0.473);
+}
+
+#searchButton {
+    width: fit-content;
+    height: 2em;
+    border-radius: 13px;
+    background-color: black;
+    color: whitesmoke;
+}

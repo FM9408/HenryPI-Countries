@@ -1,0 +1,37 @@
+.homepage {
+    margin: auto;
+    display: inline-flexbox;
+    width: 100%;
+    text-align: center;
+}
+.paginationButtons {
+    width: 100%;
+    height: fit-content;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.paginationButton {
+    width: 5em;
+    height: 2em;
+    margin: 0 5px ;
+    background-color: bisque;
+    font-size: 1.2em;
+    border-radius: 15px;
+}
+
+
+.loadingScreen {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 15em;
+}
+
+.navbarContainer {
+    width: 100%;
+    margin: auto;
+    margin-bottom: 10px;
+  }
+  

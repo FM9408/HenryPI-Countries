@@ -1,0 +1,70 @@
+.temporalScreen {
+    object-fit: contain;
+    background-color: black;
+    margin: auto;
+    padding: 1%;
+    position: relative;
+}
+
+.temporalImage {
+    width: 100%;
+    filter: invert(100%);
+    margin: auto;
+    animation-name: temporalImageApear;
+    animation-delay: 0s;
+    animation-duration: 5s;
+    animation-timing-function: ease-in-out;
+    animation-fill-mode: forwards;
+    animation-direction: normal;
+    animation-iteration-count: 1;
+
+}
+
+.buttonContainer {
+    position:absolute;
+    top: 40%;
+    left: 30%;
+    display: flex;
+}
+
+#enterButton {
+    width: 40em;
+    height: 5em;
+    border-radius: 15px;
+    background-color: blanchedalmond;
+    box-shadow: inset -15px 15px 30px rgb(255, 254, 254);
+    animation: enterButtonApear 7s ease-in 0s 1 normal forwards;
+}
+
+#enterButton:hover {
+    box-shadow: inset 15px -15px 30px rgba(0, 0, 0, 0.24);
+}
+
+
+
+@keyframes temporalImageApear {
+    from {
+        opacity: 0%;
+        filter: blur(100%);
+    }
+    to {
+        opacity: 100%;
+        filter: blur(0%);
+    }
+}
+
+@keyframes enterButtonApear {
+    0% {
+        opacity: 0%;
+        filter: blur(100%);
+    }
+    50% {
+        opacity: 0%;
+        filter: blur(100%);
+    }
+    100% {
+        opacity: 100%;
+        filter: blur(0%);
+    }
+    
+}
