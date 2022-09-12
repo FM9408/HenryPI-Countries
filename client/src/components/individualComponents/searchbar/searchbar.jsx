@@ -1,20 +1,27 @@
 import React from "react";
-import { connect } from "react-redux";
-
+import { connect} from "react-redux";
+import { searchCountryByName} from "../../../redux/actions";
 import './searchbar.css'
 
 
 
 
-function Searchbar({handleSubmit, onInput}) {
-   
-
+function Searchbar(props) {
+    let [input, onInput] = React.useState('')
+    
     function onInputChange(e) {
         onInput(e.target.value)
         
     }
 
     
+
+    function handleSubmit(e) {
+        e.preventDefault()
+        props.searchCountryByName(input.toLowerCase())
+       
+      
+    }
 
     
     return(
@@ -28,6 +35,12 @@ function Searchbar({handleSubmit, onInput}) {
 }
 
 
+function mapDispatchToProps(dispatch) {
+    return {
+        searchCountryByName: (name) => dispatch(searchCountryByName(name)),
+        
+        
+    }
+}
 
-
-export default Searchbar
+export default connect (null, mapDispatchToProps) (Searchbar)

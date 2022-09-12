@@ -13,7 +13,7 @@ function Navbar ({handleSubmit,  onInput}) {
                 <Link className='navbarLink' to='/home'>Home</Link>
             </div>
             <div className="navbarItem">
-                <Link to="/" className="navbarLink">otro Link</Link>
+                <Link to={`/countries/unknow/addActivity`} className="navbarLink">Agregar Actividad turistica</Link>
             </div>
             <div className="navbarItem">
                 <Searchbar handleSubmit={handleSubmit} onInput={onInput}/>

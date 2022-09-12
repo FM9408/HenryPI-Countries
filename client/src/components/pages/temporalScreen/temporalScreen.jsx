@@ -1,15 +1,23 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import TemporalImage from '../../../img/countries.png'
 import './temporalScreen.css'
 
+
 function TemporalScreen() {
+    let history = useHistory()
+
+
+    function enter() {
+        history.push('/')
+        console.log(history)
+    }
     return (
         <div className="temporalScreen">
             <img className='temporalImage' src={TemporalImage} alt='Imagen temporal' />
             <div className="buttonContainer">
                 <Link to='/home'>
-                    <button id="enterButton">Entrar</button>
+                    <button onClick={() => enter()} id="enterButton">Entrar</button>
                 </Link>
             </div>
         </div>

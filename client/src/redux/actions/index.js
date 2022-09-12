@@ -2,8 +2,12 @@ import axios from 'axios'
 export const GET_ALL_COUNTRIES = 'GET_ALL_COUNTRIES'
 export const GET_COUNTRY_NAME = 'GET_COUNTRY_NAME'
 export const GET_COUNTRY_BY_ID = 'GET_COUNTRY_BY_ID'
-
-
+export const ORDER_ASEN_BY_POP ="ORDER_ASEN_BY_POP"
+export const ORDER_DESEN_BY_POP = 'ORDER_DESEN_BY_POP'
+export const FILTER_BY_CONTINENTS = 'FILTER_BY_CONTINENTS'
+export const ORDER_BY_NAME_ASENT = 'ORDER_BY_NAME_ASENT'
+export const ORDER_BY_NAME_DECENT = 'ORDER_BY_NAME_DECENT'
+ 
 export  function getAllCountries() {
     return function(dispatch) {
         axios.get('http://localhost:3001/countries')
@@ -42,6 +46,7 @@ export function searchCountryByName(name) {
 
 export function getCountryDetail(id) {
     return function(dispatch) {
+       
         axios.get(`http://localhost:3001/countries/${id}`)
         .then((response) => {
             dispatch({
@@ -49,5 +54,46 @@ export function getCountryDetail(id) {
                 payload: response.data
             })
         })
+        
+    }
+}
+
+
+export function orderAsentPopulation() {
+    console.log('enActions')
+        return {
+            type: ORDER_ASEN_BY_POP
+        }
+}
+
+export function orderDesenPopulation () {
+    return {
+        type: ORDER_DESEN_BY_POP
+    }
+}
+
+export function orderAsentByName() {
+    return {
+        type: ORDER_BY_NAME_ASENT
+    }
+}
+
+export function filterByContinent(continent) {
+    if(!continent) {
+       getAllCountries()
+    } else {
+        return {
+            type: FILTER_BY_CONTINENTS,
+            payload: continent
+        }
+    }
+    
+    
+}
+
+
+export function orderDecentByName() {
+    return {
+        type: ORDER_BY_NAME_DECENT
     }
 }

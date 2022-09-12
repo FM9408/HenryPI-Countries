@@ -1,29 +1,32 @@
 import React from "react";
 import { connect, useSelector } from "react-redux";
-import { getAllCountries, searchCountryByName } from "../../../redux/actions";
+import { getAllCountries, orderAsentPopulation, orderDesenPopulation, filterByContinent, orderAsentByName, orderDecentByName} from "../../../redux/actions";
 import CountryCard from "../../individualComponents/countryCard/countryCard";
 import Navbar from "../../individualComponents/navbar/navbar";
+import Brazil from '../../../assets/brazil.svg'
+import Venezuela from '../../../assets/venezuela.svg'
+import Israel from '../../../assets/israel.svg'
+import Chile from '../../../assets/chile.svg'
+import Argentina from '../../../assets/argentina.svg'
+
+
 
 import './homepage.css'
 
 
 function Hompage(props) {
+    let banderas = [Brazil, Chile, Venezuela, Israel, Argentina]
     let countries = useSelector((state) => state.countries)
-    let totalPages = Math.ceil(countries.length/15)
+    let totalPages = Math.ceil(countries.length/10)
     let [actualPageCount, setActualPage] = React.useState(1) 
     let [page, setPage] = React.useState(0);
-    let actualPage = countries.slice(page,page + 15)
+    let actualPage = countries.slice(page,page + 10)
     let [loading, setLoading] = React.useState(true)
-    let [loadingText, setText] =React.useState('Cargando')
-    let [input, onInput] = React.useState('')
+    let [origen, setOrigen] = React.useState('')
+    let popOrder = useSelector(state => state.popOrder)
+    let [entry, setSntry] = React.useState(true)
     
-    function handleSubmit(e) {
-        e.preventDefault()
-        props.searchCountryByName(input.toLowerCase())
-        setPage(0)
-        setActualPage(1) 
-      
-    }
+   
 
     function firstPage() {
         setPage(0)
@@ -31,11 +34,11 @@ function Hompage(props) {
     }
 
     function nextPage() {
-        if(countries.length <= page +15) {
+        if(countries.length <= page +10) {
             setPage(page)
             setActualPage(totalPages)
         }else {
-            setPage(page + 15)
+            setPage(page + 10)
             setActualPage(actualPageCount + 1)
         }
 
@@ -45,55 +48,162 @@ function Hompage(props) {
             setPage(0)
             setActualPage(1)
         } else {
-            setPage(page - 15)
+            setPage(page - 10)
             setActualPage(actualPageCount -1)
         }
 
     }
 
     function lastPage() {
-        setPage(countries.length - 15)
+        setPage(countries.length - 10)
         setActualPage(totalPages)
     }
 
     function LoadingScreen() {
-        setInterval(() => {
             setTimeout(() => {
-                setText('Cargando.')
-            }, 300)
+                let random = banderas[Math.floor(Math.random()*banderas.length)]
+                setOrigen(random)
+            })
             setTimeout(()=> {
-                setText('Cargando..')
-            }, 600)
+                let random = banderas[Math.floor(Math.random()*banderas.length)]
+                setOrigen(random)
+            }, 2000)
             setTimeout(()=> {
-                setText('Cargando...')
-            }, 900)
-        },900)
+                let random = banderas[Math.floor(Math.random()*banderas.length)]
+                setOrigen(random)
+            }, 6000)
+       
+    }
+
+    function orderByPop() {
+        switch (popOrder) {
+            case 'Población acendente': {
+               
+                return ( 
+                    props.orderDesenPopulation()
+                )
+            }
+            case 'Población decendente': {
+                
+                return (
+                    props.orderAsentByName()
+                )
+            }
+            case 'Nombre acendente': {
+                return (
+                    props.orderDecentByName()
+                )
+            }
+        
+            default:
+                return(
+                    props.orderAsentPopulation()
+                )
+        }
+    }
+
+
+    function filterByContinentfn(e) {
+       switch (e.target.value) {
+           case 'Africa': {
+                setLoading(true)
+               props.getAllCountries()
+               return (
+                   setTimeout(() => {
+                    setLoading(false)
+                    props.filterByContinent('Africa')
+                }, 1000)   
+                )
+            }
+            case 'North America': {
+                setLoading(true)
+                props.getAllCountries()
+                return (
+                    setTimeout(()=>
+                        {props.filterByContinent('North America')
+                        setLoading(false)
+                    },1000)   
+                    )
+                }
+                case 'South America': {
+                    setLoading(true)
+                    props.getAllCountries()
+                    return (
+                        setTimeout(()=>{props.filterByContinent('South America')
+                         setLoading(false)},1000)   
+                        
+               )
+           }
+           case 'Antarctica': {
+            setLoading(true)
+               props.getAllCountries()
+               return (
+                setTimeout(()=>{props.filterByContinent('Antarctica')
+                setLoading(false)},1000)   
+               )
+           }
+           case 'Europe': {
+               props.getAllCountries()
+               setLoading(true)
+               return (
+                setTimeout(()=>{props.filterByContinent('Europe')
+                setLoading(false)},1000)
+               )
+           }
+           case 'Oceania': {
+            setLoading(true)
+               props.getAllCountries()
+               return (
+                setTimeout(()=>{props.filterByContinent('Oceania')
+                setLoading(false)
+                },1000)  
+               )
+           }
+           case 'Asia': {
+            setLoading(true)
+               props.getAllCountries()
+               return (
+                setTimeout(()=>{props.filterByContinent('Asia')
+                setLoading(false)},1000) 
+               )
+           }
+           
+       
+        default:
+            props.getAllCountries()
+       }
+        
     }
 
     React.useEffect(() => {
+        
         if(countries.length === 0) {
             LoadingScreen()
             setTimeout(() => {
                 props.getAllCountries()
-            },4000)
-          
+                
+            },7000)
         } else {
-            setLoading(false)
+            if(entry === true) {
+                setLoading(false)
+                firstPage()
+                setSntry(false)
+            }
         }
         
         
-    }, [countries, props])
+    }, [countries, props.countries])
     return (
         <div className="homepage">
             {
                 (loading === true) ? (
                     <div className="loadingScreen">
-                        {loadingText}
+                        <img className='countryLoadingFlag' src={origen} alt="" />
                     </div>
                 ): (
                  <div>
                     <div className="navbarContainer">
-                        <Navbar handleSubmit={(e) => handleSubmit(e)} onInput={(e) => onInput(e)} />
+                        <Navbar  />
                     </div>
                     <div className="paginationButtons">
                         <button onClick={() => firstPage()} className="paginationButton">{'<<'}</button>
@@ -101,6 +211,22 @@ function Hompage(props) {
                         {actualPageCount} de {totalPages}
                         <button  onClick={() => nextPage()} className="paginationButton">{'>'}</button>
                         <button  onClick={() => lastPage()} className="paginationButton">{'>>'}</button>
+                    </div>
+                    <div className="orderButtons">
+                        <button onClick={() => orderByPop()}>Ordenar por: {popOrder}</button>
+                    </div>
+                    <div className="filterList">
+                        
+                        <select id="continents" onChange={(e) => filterByContinentfn(e)}>
+                            <option value={null} selected>Todos los continentes</option>
+                            <option value="South America">SudAmerica</option>
+                            <option value='North America'>Norte America</option>
+                            <option value='Africa'>África</option>
+                            <option value='Europe'>Europa</option>
+                            <option value= 'Asia'>Asia</option>
+                            <option value='Antarctica'>Antartida</option>
+                            <option value= 'Oceania'>Oceania</option>
+                        </select>
                     </div>
                     {
                         actualPage.map((e) => {
@@ -127,7 +253,11 @@ function Hompage(props) {
 function mapDispatchToProps(dispatch) {
     return {
         getAllCountries: () => dispatch(getAllCountries()),
-        searchCountryByName: (name) => dispatch(searchCountryByName(name))
+        orderAsentPopulation: () => dispatch(orderAsentPopulation()),
+        orderDesenPopulation:() => dispatch(orderDesenPopulation()),
+        filterByContinent: (continent) => dispatch(filterByContinent(continent)),
+        orderAsentByName: () => dispatch(orderAsentByName()),
+        orderDecentByName: () => dispatch(orderDecentByName())
     }
 }
 export default connect(null, mapDispatchToProps)(Hompage)
