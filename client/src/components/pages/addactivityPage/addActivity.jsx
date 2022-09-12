@@ -1,7 +1,7 @@
 import React from "react";
 import { connect, useSelector } from "react-redux";
-import { useParams, useHistory } from "react-router-dom";
-import { getAllCountries, getCountryDetail, searchCountryByName, newActivity} from "../../../redux/actions";
+import { useParams } from "react-router-dom";
+import { getAllCountries, getCountryDetail,  newActivity} from "../../../redux/actions";
 import './addActivity.css'
 import Navbar from "../../individualComponents/navbar/navbar";
 
@@ -11,11 +11,12 @@ function AddActivity(props) {
     let countries = useSelector(state => state.countries)
     let fromCountry = useSelector(state => state.countryDetail)
     let [input, setInput] = React.useState({
-        name: '',
-        season: 'Verano',
+        name: [],
+        season: '',
         dificulty:  0,
-        duration: 'Corta',
-        description: ''
+        duration: '',
+        description: '',
+        id: []
     })
     React.useEffect(() =>{
         if(countries.length === 0 && id === 'unknow') {
@@ -25,7 +26,7 @@ function AddActivity(props) {
             getCountryDetail(id)
             setInput({
                 ...input,
-                id: id
+                id: input.id.concat(id)
             })
 
         }
@@ -41,6 +42,14 @@ function AddActivity(props) {
             })
     }
     
+    function countrySelection(e) {
+        setInput({
+            ...input,
+               name: input.name.concat(e.target.name),
+               id: input.id.concat(e.target.value)
+        })
+    }
+        
     
     function onInputChange(e) {
         
@@ -53,6 +62,7 @@ function AddActivity(props) {
 
 
     async function handleSubmit(e) {
+        input.id.shift()
         e.preventDefault()
         try {
             let send = await props.newActivity(input)
@@ -72,11 +82,11 @@ function AddActivity(props) {
             {
                 (id === 'unknow')?(
                     
-                    <select onChange={(e) => setId(e)}className="formSelect">
+                    <select multiple size={4} required onChange={(e) => countrySelection(e)}className="formSelect">
                         {
                             countries.map(e => {
                                 return (
-                                    <option key={e.id} value={e.id}>{e.name}</option>
+                                    <option key={e.id} name={e.name} value={e.id}>{e.name}</option>
                                 )
                             })
                         }
@@ -88,11 +98,11 @@ function AddActivity(props) {
             </div>
             <div className="inputContainer">
             <label htmlFor="name">Nombre: </label>
-            <input type="text" name="name" onChange={(e) => onInputChange(e)} id="name" value={input.name} placeholder='Ponle un nombre a la actividad' />
+            <input required className='inputName' type="text" name="name" onChange={(e) => onInputChange(e)} id="name" value={input.name} placeholder='Ponle un nombre a la actividad' minLength={3} maxLength={20}/>
             </div>
             <div className="inputContainer">
                 <label htmlFor="dificulty">Dificultad media de la actividad: </label>
-                <select onChange={(e) => onInputChange(e)} name='dificulty' id='dificulty' value={input.dificulty} >
+                <select className='inputDificulty' required onChange={(e) => onInputChange(e)} name='dificulty' id='dificulty' value={input.dificulty} >
                     <option value="1">Muy fácil</option>
                     <option value="2">Fácil</option>
                     <option value="3">Algo desafiante</option>
@@ -102,7 +112,8 @@ function AddActivity(props) {
             </div>
             <div className="inputContainer">
                 <label htmlFor="duration">Duración media de la actividad: </label>
-                <select onChange={(e) => onInputChange(e)} name='duration'  id='duration' value={input.duration}>
+                <select className="inputDuration" required onChange={(e) => onInputChange(e)} name='duration'  id='duration' value={input.duration}>
+                    <option value="" >Duración media de la actividad</option>
                     <option value="Corta">Corta</option>
                     <option value="Media">Media</option>
                     <option value="Larga">Larga</option>
@@ -110,7 +121,8 @@ function AddActivity(props) {
             </div>
             <div className="inputContainer">
                 <label htmlFor="season">Temporada ideal para realizar la actividad: </label>
-                <select name="season" id="season" value={input.season} onChange={(e) => onInputChange(e)}>
+                <select className="inputSeason" required name="season" id="season" value={input.season} onChange={(e) => onInputChange(e)}>
+                    <option value="">Temporada ideal para la actividad</option>
                     <option value="Verano">Verano</option>
                     <option value="Primavera">Primavera</option>
                     <option value="Otoño">Otoño</option>
@@ -119,7 +131,7 @@ function AddActivity(props) {
             </div>
             <div className="inputContainer">
                 <label htmlFor="description">Describre brevemente la actividad: </label>
-                <input className='description' name='description' type="text" onChange={(e)=> onInputChange(e)} value={input.description} maxLength={255} minLength={80} placeholder='la descripcion debe de tener al menos 80 caracteres  y maximo 255'  id='descrption'/>
+                <input autoComplete="off"  required className='description' name='description' type="text" onChange={(e)=> onInputChange(e)} value={input.description} maxLength={255} minLength={80} placeholder='la descripcion debe de tener al menos 80 caracteres  y maximo 255'  id='descrption'/>
             </div>
             </form>
             <button onClick={(e) =>handleSubmit(e)} id='createActivityButton' type='submit'>Crear actividad</button>
@@ -131,7 +143,6 @@ function mapDispatchToProps(dispatch) {
     return {
         getAllCountries: () => dispatch(getAllCountries()),
         getCountryDetail: (id) => dispatch(getCountryDetail(id)),
-        searchCountryByName: (name) => dispatch(searchCountryByName(name)),
         newActivity: (info)=> dispatch(newActivity(info))
     }
 }

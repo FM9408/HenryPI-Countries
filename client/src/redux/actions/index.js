@@ -62,7 +62,7 @@ export function getCountryDetail(id) {
 
 
 export function orderAsentPopulation() {
-    console.log('enActions')
+    
         return {
             type: ORDER_ASEN_BY_POP
         }

@@ -13,12 +13,13 @@ function Searchbar(props) {
         onInput(e.target.value)
         
     }
-
     
-
+    
+    
     function handleSubmit(e) {
         e.preventDefault()
         props.searchCountryByName(input.toLowerCase())
+        
        
       
     }
@@ -26,7 +27,7 @@ function Searchbar(props) {
     
     return(
         <div id="searchBar">
-            <form action="" method="post">
+            <form method="get" >
                 <input onChange={(e) => onInputChange(e)}type="search" name="" id="searchbarInput" placeholder="Buscar país"/>
                 <button onClick={(e) => handleSubmit(e)} id="searchButton" type="submit">Buscar</button>
             </form>

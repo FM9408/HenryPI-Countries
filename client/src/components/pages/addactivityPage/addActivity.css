@@ -60,3 +60,34 @@ label{
     height: 3em;
     border-radius: 20px;
 }
+
+
+
+input:invalid:required {
+    border-color: brown;
+    border-width: 3px;
+    color: aliceblue;
+    
+}
+
+
+
+input:invalid {
+    background-color: rgba(220, 20, 60, 0.137);
+}
+
+input:valid {
+    border-color: green;
+    border-width: 3px;
+    
+}
+
+
+select:required {
+    border-color: brown;
+}
+
+select:valid {
+    border-color: aquamarine;
+}
+
