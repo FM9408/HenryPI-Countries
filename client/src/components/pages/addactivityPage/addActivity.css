@@ -1,3 +1,62 @@
-h1 {
-    color: aliceblue;
+.pageContainer {
+
+    margin: auto;
+    display: inline-flexbox;
+    width: 100%;
+    text-align: center;
+    
+}
+.AddActContainer {
+    background-color: rgba(90, 90, 90, 0.555);
+    color: black; margin: auto;
+    margin: auto;
+}
+
+.addNewActivityForm {
+    background-color: rgb(85, 85, 85);
+    display: flexbox;
+    width: 100%;
+    padding:1%
+    
+}
+.text {
+    color: black;
+    font-weight: 500;
+    width: 100%;
+}
+
+.formSelect{
+    margin: auto;
+    width: fit-content;
+    height: 2em;
+}
+
+.inputContainer {
+    margin: auto;
+    padding: 1%;
+    display: inline-flexbox;
+    width: 100%;
+    
+    
+    
+}
+
+label{
+    display: flex;
+    margin: auto;
+    justify-content: center;
+    
+}
+
+.description {
+    width: 30%;
+    height: 5em;
+    overflow-wrap: break-word;
+}
+
+
+#createActivityButton {
+    width: 20em;
+    height: 3em;
+    border-radius: 20px;
 }

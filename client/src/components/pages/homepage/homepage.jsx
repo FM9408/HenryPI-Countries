@@ -94,6 +94,11 @@ function Hompage(props) {
                     props.orderDecentByName()
                 )
             }
+            case 'Nombre decendente': {
+                return (
+                    props.getAllCountries()
+                )
+            }
         
             default:
                 return(
@@ -212,8 +217,9 @@ function Hompage(props) {
                         <button  onClick={() => nextPage()} className="paginationButton">{'>'}</button>
                         <button  onClick={() => lastPage()} className="paginationButton">{'>>'}</button>
                     </div>
-                    <div className="orderButtons">
-                        <button onClick={() => orderByPop()}>Ordenar por: {popOrder}</button>
+                    <div className="filtersAndOrders">
+                    <div className="orderButtonContainer">
+                        <button id='orderButton' onClick={() => orderByPop()}>Ordenar por: {popOrder}</button>
                     </div>
                     <div className="filterList">
                         
@@ -227,6 +233,7 @@ function Hompage(props) {
                             <option value='Antarctica'>Antartida</option>
                             <option value= 'Oceania'>Oceania</option>
                         </select>
+                    </div>
                     </div>
                     {
                         actualPage.map((e) => {

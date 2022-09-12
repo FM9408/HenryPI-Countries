@@ -5,19 +5,15 @@ import './temporalScreen.css'
 
 
 function TemporalScreen() {
-    let history = useHistory()
+   
 
 
-    function enter() {
-        history.push('/')
-        console.log(history)
-    }
     return (
         <div className="temporalScreen">
             <img className='temporalImage' src={TemporalImage} alt='Imagen temporal' />
             <div className="buttonContainer">
                 <Link to='/home'>
-                    <button onClick={() => enter()} id="enterButton">Entrar</button>
+                    <button id="enterButton">Entrar</button>
                 </Link>
             </div>
         </div>

@@ -1,12 +1,13 @@
 import axios from 'axios'
-export const GET_ALL_COUNTRIES = 'GET_ALL_COUNTRIES'
-export const GET_COUNTRY_NAME = 'GET_COUNTRY_NAME'
-export const GET_COUNTRY_BY_ID = 'GET_COUNTRY_BY_ID'
-export const ORDER_ASEN_BY_POP ="ORDER_ASEN_BY_POP"
-export const ORDER_DESEN_BY_POP = 'ORDER_DESEN_BY_POP'
-export const FILTER_BY_CONTINENTS = 'FILTER_BY_CONTINENTS'
-export const ORDER_BY_NAME_ASENT = 'ORDER_BY_NAME_ASENT'
-export const ORDER_BY_NAME_DECENT = 'ORDER_BY_NAME_DECENT'
+export const GET_ALL_COUNTRIES = 'GET_ALL_COUNTRIES';
+export const GET_COUNTRY_NAME = 'GET_COUNTRY_NAME';
+export const GET_COUNTRY_BY_ID = 'GET_COUNTRY_BY_ID';
+export const ORDER_ASEN_BY_POP ="ORDER_ASEN_BY_POP";
+export const ORDER_DESEN_BY_POP = 'ORDER_DESEN_BY_POP';
+export const FILTER_BY_CONTINENTS = 'FILTER_BY_CONTINENTS';
+export const ORDER_BY_NAME_ASENT = 'ORDER_BY_NAME_ASENT';
+export const ORDER_BY_NAME_DECENT = 'ORDER_BY_NAME_DECENT';
+export const NEW_ACTIVITY = 'NEW_ACTIVITY';
  
 export  function getAllCountries() {
     return function(dispatch) {
@@ -23,6 +24,7 @@ export  function getAllCountries() {
 
 export function searchCountryByName(name) {
     return function(dispatch) {
+
         axios.get(`http://localhost:3001/countries?name=${name}`)
         .then((response) => {
             dispatch({
@@ -96,4 +98,22 @@ export function orderDecentByName() {
     return {
         type: ORDER_BY_NAME_DECENT
     }
+}
+
+
+export async function newActivity(info) {
+    axios.post('http://localhost:3001/activities', {
+        name: info.name,
+        description: info.description,
+        difuculty: info.difuculty,
+        season: info.season,
+        duration: info.duration,
+        id: info.id
+    })
+    .then((response) => {
+        console.log(response)
+    })
+    .catch((err) => {
+        console.log(err.message)
+    })
 }

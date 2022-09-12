@@ -87,9 +87,14 @@ function CountryPage(props) {
                     <h4 className="text">Actividades turisticas: </h4>
                     {
                         (countryById.activities) ? (
-                            countryById.activities.map(a => {
+                            countryById.activities.map((a, i) => {
+                               
                                 return (
-                                    <h4 className="text">{a}</h4>
+                                    <div style={{display: 'flexbox'}} key={i++}>
+                                        <h4 className="text" style={{display:"flexbox", margin:"auto", padding:"1%"}}>{a.name}: </h4>
+                                        <h4 className="text">Duración: {a.duration}</h4>
+                                    </div>
+                                    
                                 )
                             })
                         ): (

@@ -1,37 +1,38 @@
 const {Country, Activity} = require('../db.js')
 
-function newAct(req, res) {
-    let {name, dificulty, duration, season, country} = req.body;
+async function newAct(req, res) {
+    let {name, dificulty, duration, season, id, description} = req.body;
     
-    let validate = Activity.findOne({
+    let validate =  await Activity.findOne({
         where: {
             name: name,
         },
     });
 
     if(!validate) {
-        let addActivity = Activity.create({
+        let addActivity = await Activity.create({
             name: name,
             dificulty: dificulty,
             duration: duration,
             season: season,
+            description: description
         });
-        let matchCountry = Country.findAll({
+        let matchCountry = await Country.findAll({
             where: {
-                id: country
+                id: id,
             },
         });
 
-        let responseActivity = addActivity.addCountries(matchCountry)
+        let responseActivity = await addActivity.addCountries(matchCountry)
         return res.send(responseActivity)
     }
-    let countryMatch = Country.findAll({
+    let countryMatch = await Country.findAll({
         where: {
-            id: country
+            id: id
         },
     });
 
-    let response = validate.addCountries(countryMatch)
+    let response = await validate.addCountries(countryMatch)
     res.send(response)
 }
 

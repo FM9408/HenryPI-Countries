@@ -78,7 +78,6 @@ async function allCountries(req, res) {
 
 
 async function getCountryById(req, res) {
-    console.log(req.params)
     try {
         let idPais = req.params.idPais.toUpperCase()
 
