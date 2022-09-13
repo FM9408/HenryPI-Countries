@@ -1,7 +1,8 @@
 const {Country, Activity} = require('../db.js')
+const {Op} = require('sequelize')
 
 async function newAct(req, res) {
-    let {name, dificulty, duration, season, id, description} = req.body;
+    let {name, dificulty, duration, season, id, description, type} = req.body;
     
     let validate =  await Activity.findOne({
         where: {
@@ -10,12 +11,14 @@ async function newAct(req, res) {
     });
 
     if(!validate) {
+        
         let addActivity = await Activity.create({
             name: name,
             dificulty: dificulty,
             duration: duration,
             season: season,
-            description: description
+            description: description,
+            type: type
         });
         let matchCountry = await Country.findAll({
             where: {
@@ -36,7 +39,33 @@ async function newAct(req, res) {
     res.send(response)
 }
 
+async function getAllActivities(req, res) {
+    let {type} = req.query
+    let json = {
+        activities: []
+    }
+    if(!type) {
+        let activities = await Activity.findAll({include: Country})
+        res.send(activities)
+    } else {
+        let queryActivities = await Activity.findAll({include: Country})
+
+        queryActivities.forEach(a => {
+            if(a.type.includes(type)) {
+                json.activities.push(a)
+            }
+
+        })
+        res.send(json)
+        
+    }
+}
+
+
+
 
 module.exports = {
-    newAct
+    newAct,
+    getAllActivities,
+    
 }

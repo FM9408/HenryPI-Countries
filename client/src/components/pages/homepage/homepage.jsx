@@ -1,6 +1,6 @@
 import React from "react";
 import { connect, useSelector } from "react-redux";
-import { getAllCountries, orderAsentPopulation, orderDesenPopulation, filterByContinent, orderAsentByName, orderDecentByName} from "../../../redux/actions";
+import { getAllCountries, orderAsentPopulation, orderDesenPopulation, filterByContinent, orderAsentByName, orderDecentByName, filterByActivity} from "../../../redux/actions";
 import CountryCard from "../../individualComponents/countryCard/countryCard";
 import Navbar from "../../individualComponents/navbar/navbar";
 import Brazil from '../../../assets/brazil.svg'
@@ -180,6 +180,14 @@ function Hompage(props) {
         
     }
 
+    function  filterByTouristActivity(e) {
+        try {
+            props.filterByActivity(e.target.value)
+        } catch (error) {
+            
+        }
+    }
+
     React.useEffect(() => {
         
         if(countries.length === 0) {
@@ -218,22 +226,32 @@ function Hompage(props) {
                         <button  onClick={() => lastPage()} className="paginationButton">{'>>'}</button>
                     </div>
                     <div className="filtersAndOrders">
-                    <div className="orderButtonContainer">
-                        <button id='orderButton' onClick={() => orderByPop()}>Ordenar por: {popOrder}</button>
-                    </div>
-                    <div className="filterList">
-                        
-                        <select id="continents" onChange={(e) => filterByContinentfn(e)}>
-                            <option value={null} selected>Todos los continentes</option>
-                            <option value="South America">SudAmerica</option>
-                            <option value='North America'>Norte America</option>
-                            <option value='Africa'>África</option>
-                            <option value='Europe'>Europa</option>
-                            <option value= 'Asia'>Asia</option>
-                            <option value='Antarctica'>Antartida</option>
-                            <option value= 'Oceania'>Oceania</option>
-                        </select>
-                    </div>
+                        <div className="orderButtonContainer">
+                            <button id='orderButton' onClick={() => orderByPop()}>Ordenar por: {popOrder}</button>
+                        </div>
+                        <div className="filterList">
+                            
+                            <select id="continents" onChange={(e) => filterByContinentfn(e)}>
+                                <option value={null} selected>Todos los continentes</option>
+                                <option value="South America">SudAmerica</option>
+                                <option value='North America'>Norte America</option>
+                                <option value='Africa'>África</option>
+                                <option value='Europe'>Europa</option>
+                                <option value= 'Asia'>Asia</option>
+                                <option value='Antarctica'>Antartida</option>
+                                <option value= 'Oceania'>Oceania</option>
+                            </select>
+                        </div>
+                        <div className="filterbyTouristActivity">
+                            <select name="touristActivity" onChange={(e) => filterByTouristActivity(e)} id="touristActivity">
+                                <option value={null}>Todos los tipos de Actividades</option>
+                                <option value="Familiar">Familiar</option>
+                                <option value="Para solteros">Para solteros</option>
+                                <option value="Para relajarse">Para relajarse</option>
+                                <option value="De negocios">De negocios</option>
+                                <option value="Para Grupos">Para grupos</option>
+                            </select>
+                        </div>
                     </div>
                     {
                         actualPage.map((e) => {
@@ -264,7 +282,8 @@ function mapDispatchToProps(dispatch) {
         orderDesenPopulation:() => dispatch(orderDesenPopulation()),
         filterByContinent: (continent) => dispatch(filterByContinent(continent)),
         orderAsentByName: () => dispatch(orderAsentByName()),
-        orderDecentByName: () => dispatch(orderDecentByName())
+        orderDecentByName: () => dispatch(orderDecentByName()),
+        filterByActivity: (type) => dispatch(filterByActivity(type))
     }
 }
 export default connect(null, mapDispatchToProps)(Hompage)

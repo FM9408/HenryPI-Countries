@@ -8,7 +8,7 @@ module.exports = (sequelize) => {
             allownull: false
         },
         dificulty: {
-            type: DataTypes.ENUM('1', '2', '3', '4', '5'),
+            type: DataTypes.ENUM('Muy fácil', 'Fácil', 'Algo desafiante', 'Difícil', 'Muy difícil'),
             allownull: false
         },
         duration: {
@@ -22,6 +22,10 @@ module.exports = (sequelize) => {
         description: {
             type: DataTypes.CHAR({length: 255}),
             allownull: false
+        },
+        type: {
+            type: DataTypes.ARRAY(DataTypes.STRING),
+            allownull:false
         }
     })
 }

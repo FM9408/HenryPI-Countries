@@ -44,7 +44,8 @@ module.exports = (sequelize) => {
     languages: {
       type: DataTypes.ARRAY(DataTypes.STRING),
       allowNull: true
-    }
+    },
+    
   }, {
     timestamp: false,
     createdAt: false,

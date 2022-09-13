@@ -13,14 +13,16 @@ function AddActivity(props) {
     let [input, setInput] = React.useState({
         name: [],
         season: '',
-        dificulty:  0,
+        dificulty:  '',
         duration: '',
         description: '',
-        id: []
+        id: [],
+        type: []
     })
     React.useEffect(() =>{
         if(countries.length === 0 && id === 'unknow') {
             props.getAllCountries()
+            
         }
         else {
             getCountryDetail(id)
@@ -43,6 +45,9 @@ function AddActivity(props) {
     }
     
     function countrySelection(e) {
+        if(input.id[0] === 'unknow') {
+            input.id.shift()
+        }
         setInput({
             ...input,
                name: input.name.concat(e.target.name),
@@ -60,9 +65,25 @@ function AddActivity(props) {
         })
     }
 
+    function onTypeInput(e) {
+        console.log(input)
+        if(input.type.includes(e.target.value)){
+            setInput({
+                ...input,
+                type: input.type.filter(t => t !== e.target.value)
+            })
+        }
+        else {
+
+            setInput({
+                ...input,
+                type: input.type.concat(e.target.value)
+            })
+        }
+    }
 
     async function handleSubmit(e) {
-        input.id.shift()
+        
         e.preventDefault()
         try {
             let send = await props.newActivity(input)
@@ -70,7 +91,8 @@ function AddActivity(props) {
         } catch (error) {
             return error.message
         }
-        props.history.push(`/countries/${input.id}`)
+        
+        
     }
     return (
         <div className="pageContainer">
@@ -82,7 +104,8 @@ function AddActivity(props) {
             {
                 (id === 'unknow')?(
                     
-                    <select multiple size={4} required onChange={(e) => countrySelection(e)}className="formSelect">
+                    <div>
+                        <select multiple size={4} required onChange={(e) => countrySelection(e)}className="formSelect">
                         {
                             countries.map(e => {
                                 return (
@@ -91,6 +114,23 @@ function AddActivity(props) {
                             })
                         }
                     </select>
+                    <h4 className="text">Paises seleccionados:</h4>
+                    
+                        {
+                            (input.id) ? (
+                                input.id.map((e,i) => {
+                                    return (
+                                        <h4 className="text label">{`${e}, `}</h4>
+                                    )
+                                })
+                                ):(
+                                    <h4 className="text">Selecciona al menos un país</h4>
+                                )
+                            
+                        }
+                  
+                    </div>
+                    
                 ): (
                     <h4 className="text">{fromCountry.name}</h4>
                 )
@@ -103,11 +143,12 @@ function AddActivity(props) {
             <div className="inputContainer">
                 <label htmlFor="dificulty">Dificultad media de la actividad: </label>
                 <select className='inputDificulty' required onChange={(e) => onInputChange(e)} name='dificulty' id='dificulty' value={input.dificulty} >
-                    <option value="1">Muy fácil</option>
-                    <option value="2">Fácil</option>
-                    <option value="3">Algo desafiante</option>
-                    <option value="4">Difícil</option>
-                    <option value="5">Muy difícil</option>
+                    <option value=''>Elige una dificultad</option>
+                    <option value='Muy fácil'>Muy fácil</option>
+                    <option value='Fácil'>Fácil</option>
+                    <option value='Algo desafiante'>Algo desafiante</option>
+                    <option value='Difícil'>Difícil</option>
+                    <option value='Muy difícil'>Muy difícil</option>
                 </select>
             </div>
             <div className="inputContainer">
@@ -128,6 +169,14 @@ function AddActivity(props) {
                     <option value="Otoño">Otoño</option>
                     <option value="Invierno">Invierno</option>
                 </select>
+            </div>
+            <div className="inputContainer">
+                <label htmlFor="type">Tipo de actividad</label>
+                <input className='inputCheckbox' type="checkbox" name="type" value='Para solteros'  onChange={(e) => onTypeInput(e)} id="paraSolteros" /> <label className="text label" htmlFor="paraSolteros">Para solteros</label>
+                <input className='inputCheckbox' type="checkbox" name="type" value='Familiar' onChange={(e) => onTypeInput(e)} id="familiar" /> <label className="text label" htmlFor="familiar">Familiar</label>
+                <input className='inputCheckbox' type="checkbox" name="type" value='De negocios' onChange={(e) => onTypeInput(e)} id="deNegocios" /> <label className="text label" htmlFor="deNegocios">De Negocios</label>
+                <input className='inputCheckbox' type="checkbox" name="type" value='Para relajarse' onChange={(e) => onTypeInput(e)} id="paraRelajarse" /> <label className="text label" htmlFor="paraRelajarse">Para relajarse</label>
+                <input className='inputCheckbox' type="checkbox" name="type" value='Para grupos' onChange={(e) => onTypeInput(e)} id="paraGrupos" /> <label className="text label" htmlFor="paraGrupos">Para grupos</label>
             </div>
             <div className="inputContainer">
                 <label htmlFor="description">Describre brevemente la actividad: </label>

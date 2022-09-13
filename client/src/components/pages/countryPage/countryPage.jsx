@@ -39,8 +39,11 @@ function CountryPage(props) {
                         {countryById.name}
                     </h1>
                 </div>
+                <div className="countryId">
+                    <h2 className="text">{id}</h2>
+                </div>
                 <div className="languagesContainer text">
-                    <h2>Idiomas hablados: </h2>
+                    <h2 className="text">Idiomas hablados: </h2>
                     {
                         (countryById.languages) ? (
                             countryById.languages.map((l,i =1) => {
@@ -49,7 +52,7 @@ function CountryPage(props) {
                                 )
                             })
                         ): (
-                            <div></div>
+                            <h2 className="text">Sin idiomas hablados</h2>
                         )
                     }
                 </div>
@@ -90,21 +93,25 @@ function CountryPage(props) {
                             countryById.activities.map((a, i) => {
                                
                                 return (
-                                    <div style={{display: 'flexbox'}} key={i++}>
-                                        <h4 className="text" style={{display:"flexbox", margin:"auto", padding:"1%"}}>{a.name}: </h4>
-                                        <h4 className="text">Duración: {a.duration}</h4>
+                                    <div key={i++} style={{margin:'auto'}}>
+                                        <h4 className="text" style={{display:"inline", margin:"auto", padding:"1%"}}>Nombre: {a.name}, </h4>
+                                        <h4 className="text" style={{display: 'inline'}}>Duración: {a.duration}, </h4>
+                                        <h4 className="text" style={{display: 'inline'}}>Dificultad: {a.dificulty}, </h4>
+                                        <h4 className="text" style={{display:'initial'}}>Tipo: {a.type}</h4>
                                     </div>
                                     
                                 )
                             })
                         ): (
-                            <h4 className="text" style={{color: 'black'}}>No hay actividades turisticas aún, ¡agrega una!</h4>
+                            <h4 className="text">No hay actividades turisticas aún, ¡agrega una!</h4>
                         )
                     }
                 </div>
+                    <div style={{marginTop: '5px'}}>
                     <Link to={`/countries/${countryById.id}/addActivity`} className="touristActivityLink">
                         <button className="touristActivityButton"> <p className="text">Agregar Actividad turistica</p> </button>
                     </Link>
+                    </div>
                 </div>
                 
             </div>

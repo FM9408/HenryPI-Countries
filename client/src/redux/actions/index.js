@@ -8,6 +8,7 @@ export const FILTER_BY_CONTINENTS = 'FILTER_BY_CONTINENTS';
 export const ORDER_BY_NAME_ASENT = 'ORDER_BY_NAME_ASENT';
 export const ORDER_BY_NAME_DECENT = 'ORDER_BY_NAME_DECENT';
 export const NEW_ACTIVITY = 'NEW_ACTIVITY';
+export const FILTER_BY_ACTIVITY = 'FILTER_BY_ACTIVITY'
  
 export  function getAllCountries() {
     return function(dispatch) {
@@ -105,10 +106,11 @@ export async function newActivity(info) {
     axios.post('http://localhost:3001/activities', {
         name: info.name,
         description: info.description,
-        difuculty: info.difuculty,
+        dificulty: info.dificulty,
         season: info.season,
         duration: info.duration,
-        id: info.id
+        id: info.id,
+        type: info.type
     })
     .then((response) => {
         console.log(response)
@@ -116,4 +118,23 @@ export async function newActivity(info) {
     .catch((err) => {
         console.log(err.message)
     })
+}
+
+
+export function filterByActivity(type) {
+    if(!type) {
+        getAllCountries()
+    }
+    else{
+       return function(dispatch) {
+            axios.get('http://localhost:3001/activities/?type=' + type)
+            .then((response) => {
+           dispatch({
+            type: FILTER_BY_ACTIVITY,
+            payload: response.data
+           })
+        })
+       }
+    }
+    
 }

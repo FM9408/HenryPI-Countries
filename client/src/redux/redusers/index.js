@@ -1,9 +1,10 @@
-import {GET_ALL_COUNTRIES, GET_COUNTRY_NAME, GET_COUNTRY_BY_ID, ORDER_ASEN_BY_POP, ORDER_DESEN_BY_POP, FILTER_BY_CONTINENTS, ORDER_BY_NAME_ASENT, ORDER_BY_NAME_DECENT} from '../actions/index'
+import {GET_ALL_COUNTRIES, GET_COUNTRY_NAME, GET_COUNTRY_BY_ID, ORDER_ASEN_BY_POP, ORDER_DESEN_BY_POP, FILTER_BY_CONTINENTS, ORDER_BY_NAME_ASENT, ORDER_BY_NAME_DECENT, FILTER_BY_ACTIVITY} from '../actions/index'
 
 let initialState = {
     countries: [],
     countryDetail: {},
     popOrder: '',
+    activities: []
 }
 
 
@@ -85,6 +86,24 @@ export default function  rootReducer(state = initialState, action) {
                     countries: state.countries.filter(e => e.continents.includes(action.payload))
 
                     
+                }
+           }
+           case FILTER_BY_ACTIVITY: {
+            let countriesfilt = []
+            let ids = []
+            
+                action.payload.activities.forEach(e => {
+                    e.countries.forEach(c => {
+                        if(!ids.includes(c.id)){
+                            countriesfilt.push(c)
+                        }
+                        ids.push(c.id)
+                })
+            })
+                console.log(countriesfilt)
+                return {
+                    ...state, 
+                    countries: countriesfilt
                 }
            }
         default:

@@ -26,6 +26,7 @@ async function WriteDatabase() {
                 }
             }
         }
+       
         
         Country.findOrCreate({
             where: {
@@ -39,7 +40,8 @@ async function WriteDatabase() {
                 continents: e.continents,
                 official: e.translations.spa.official,
                 languages: languagues
-            }
+            },
+            include: Activity
         })
         
     });    

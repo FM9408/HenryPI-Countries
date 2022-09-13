@@ -7,16 +7,18 @@
     
 }
 .AddActContainer {
-    background-color: rgba(90, 90, 90, 0.555);
+    background-color: blanchedalmond;
     color: black; margin: auto;
     margin: auto;
+    border-radius: 20px;
 }
 
 .addNewActivityForm {
-    background-color: rgb(85, 85, 85);
+    background-color: rgb(221, 203, 176);
     display: flexbox;
     width: 100%;
-    padding:1%
+    padding:1%;
+    border-radius: 20px;
     
 }
 .text {
@@ -91,3 +93,7 @@ select:valid {
     border-color: aquamarine;
 }
 
+.inputCheckbox,
+.label {
+    display: inline
+}
