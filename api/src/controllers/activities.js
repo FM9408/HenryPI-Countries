@@ -1,6 +1,7 @@
 const {Country, Activity} = require('../db.js')
 const {Op} = require('sequelize')
 
+
 async function newAct(req, res) {
     let {name, dificulty, duration, season, id, description, type} = req.body;
     

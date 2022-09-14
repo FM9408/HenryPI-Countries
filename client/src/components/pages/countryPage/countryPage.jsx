@@ -43,12 +43,12 @@ function CountryPage(props) {
                     <h2 className="text">{id}</h2>
                 </div>
                 <div className="languagesContainer text">
-                    <h2 className="text">Idiomas hablados: </h2>
+                    <h2 style={{display: 'inline'}} className="text">Idiomas hablados: </h2>
                     {
                         (countryById.languages) ? (
                             countryById.languages.map((l,i =1) => {
                                 return (
-                                    <h2 className="text" key={i++}>{l}</h2>
+                                    <h2 style={{display: 'inline'}}className="text" key={i++}>{l} </h2>
                                 )
                             })
                         ): (
@@ -97,7 +97,13 @@ function CountryPage(props) {
                                         <h4 className="text" style={{display:"inline", margin:"auto", padding:"1%"}}>Nombre: {a.name}, </h4>
                                         <h4 className="text" style={{display: 'inline'}}>Duración: {a.duration}, </h4>
                                         <h4 className="text" style={{display: 'inline'}}>Dificultad: {a.dificulty}, </h4>
-                                        <h4 className="text" style={{display:'initial'}}>Tipo: {a.type}</h4>
+                                        <h4 className="text" style={{display:'inline'}}> Tipo: {
+                                            a.type.map((t,m) => {
+                                                return (
+                                                    `${m +1}: ${t} `
+                                                )
+                                            })
+                                        } </h4>
                                     </div>
                                     
                                 )

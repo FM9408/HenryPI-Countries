@@ -45,6 +45,14 @@ module.exports = (sequelize) => {
       type: DataTypes.ARRAY(DataTypes.STRING),
       allowNull: true
     },
+    nameENG: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    officialENG: {
+      type: DataTypes.STRING,
+      allowNull: false
+    }
     
   }, {
     timestamp: false,

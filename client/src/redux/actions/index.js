@@ -23,26 +23,32 @@ export  function getAllCountries() {
 }
 
 
-export function searchCountryByName(name) {
-    return function(dispatch) {
+export  function searchCountryByName(name) {
+    if(name === '') {
+        getAllCountries()
+    } else {
+        return  function(dispatch) {
 
-        axios.get(`http://localhost:3001/countries?name=${name}`)
-        .then((response) => {
-            dispatch({
-                type: GET_COUNTRY_NAME,
-                payload: response.data
+            axios.get(`http://localhost:3001/countries?name=${name}`)
+            .then((response) => {
+               dispatch({
+                    type: GET_COUNTRY_NAME,
+                    payload: response.data
+                })
+                
             })
-        })
-        .catch((err) => {
-            dispatch({
-                type: GET_COUNTRY_NAME,
-                payload: [{
-                    name: 'No se encuentra ningún país que coincida con la busqueda',
-                    flag: '',
-                    continent: ['any'],
-                }]
+            .catch((err) => {
+                dispatch({
+                    type: GET_COUNTRY_NAME,
+                    payload: [{
+                        name: 'No se encuentra ningún país que coincida con la busqueda',
+                        flag: '',
+                        continent: ['any'],
+                    }]
+                })
             })
-        })
+            
+        }
     }
 }
 
@@ -102,27 +108,31 @@ export function orderDecentByName() {
 }
 
 
-export async function newActivity(info) {
-    axios.post('http://localhost:3001/activities', {
-        name: info.name,
-        description: info.description,
-        dificulty: info.dificulty,
-        season: info.season,
-        duration: info.duration,
-        id: info.id,
-        type: info.type
-    })
-    .then((response) => {
-        console.log(response)
-    })
-    .catch((err) => {
-        console.log(err.message)
-    })
+export  function newActivity(info) {
+    
+    return async function () {
+        try {
+            await axios.post('http://localhost:3001/activities', {
+            name: info.name,
+            description: info.description,
+            dificulty: info.dificulty,
+            season: info.season,
+            duration: info.duration,
+            id: info.id,
+            type: info.type
+        })
+        window.location.replace('/country/' + info.id[0])
+        
+        } catch (error) {
+            
+        }
+    }
+    
 }
 
 
 export function filterByActivity(type) {
-    if(!type) {
+    if(!type || type === '') {
         getAllCountries()
     }
     else{
@@ -131,7 +141,10 @@ export function filterByActivity(type) {
             .then((response) => {
            dispatch({
             type: FILTER_BY_ACTIVITY,
-            payload: response.data
+            payload: {
+                data: response.data,
+                type: type
+            }
            })
         })
        }

@@ -1,6 +1,6 @@
 import React from "react";
 import { connect} from "react-redux";
-import { searchCountryByName} from "../../../redux/actions";
+import { searchCountryByName, getAllCountries} from "../../../redux/actions";
 import './searchbar.css'
 
 
@@ -11,25 +11,24 @@ function Searchbar(props) {
     
     function onInputChange(e) {
         onInput(e.target.value)
-        
-    }
-    
-    
-    
-    function handleSubmit(e) {
-        e.preventDefault()
-        props.searchCountryByName(input.toLowerCase())
-        
-       
-      
-    }
+        if(input === '') {
+            props.getAllCountries()
+        }
+        else {
+            props.searchCountryByName(input.toLowerCase())
 
+        }
+        
+    }
+    
+    
+
+    
     
     return(
         <div id="searchBar">
-            <form method="get" >
+            <form method="get" id='searchbarForm' action="">
                 <input onChange={(e) => onInputChange(e)}type="search" name="" id="searchbarInput" placeholder="Buscar país"/>
-                <button onClick={(e) => handleSubmit(e)} id="searchButton" type="submit">Buscar</button>
             </form>
         </div>
     )
@@ -40,7 +39,7 @@ function mapDispatchToProps(dispatch) {
     return {
         searchCountryByName: (name) => dispatch(searchCountryByName(name)),
         
-        
+        getAllCountries: () => dispatch(getAllCountries())
     }
 }
 

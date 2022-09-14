@@ -4,7 +4,8 @@ let initialState = {
     countries: [],
     countryDetail: {},
     popOrder: '',
-    activities: []
+    entry: false,
+    activity: ''
 }
 
 
@@ -16,7 +17,9 @@ export default function  rootReducer(state = initialState, action) {
             return {
                 ...state,
                 countries: action.payload,
-                popOrder: 'Ningún orden'
+                popOrder: 'Ningún orden',
+                entry: true,
+                activity: ''
             }
           }
            case GET_COUNTRY_NAME: {
@@ -62,7 +65,7 @@ export default function  rootReducer(state = initialState, action) {
                         }
                         else return 0
                     }),
-                    popOrder: 'Nombre acendente'
+                    popOrder: 'Nombre A-Z'
                 }
            }
            case ORDER_BY_NAME_DECENT: {
@@ -77,7 +80,7 @@ export default function  rootReducer(state = initialState, action) {
                     }
                     else return 0
                 }).reverse(),
-                popOrder: 'Nombre decendente'
+                popOrder: 'Nombre Z-A'
             }
            }
            case FILTER_BY_CONTINENTS: {
@@ -92,7 +95,7 @@ export default function  rootReducer(state = initialState, action) {
             let countriesfilt = []
             let ids = []
             
-                action.payload.activities.forEach(e => {
+                action.payload.data.activities.forEach(e => {
                     e.countries.forEach(c => {
                         if(!ids.includes(c.id)){
                             countriesfilt.push(c)
@@ -100,10 +103,10 @@ export default function  rootReducer(state = initialState, action) {
                         ids.push(c.id)
                 })
             })
-                console.log(countriesfilt)
                 return {
                     ...state, 
-                    countries: countriesfilt
+                    countries: countriesfilt,
+                    activity: action.payload.type
                 }
            }
         default:

@@ -17,7 +17,7 @@
     background-color: rgb(221, 203, 176);
     display: flexbox;
     width: 100%;
-    padding:1%;
+    
     border-radius: 20px;
     
 }
@@ -34,64 +34,53 @@
 }
 
 .inputContainer {
-    margin: auto;
-    padding: 1%;
-    display: inline-flexbox;
-    width: 100%;
-    
+    margin: 5px;
+    display: grid;
+    grid-template-columns: 50% 50%;
+   align-content: center;
     
     
 }
 
-label{
-    display: flex;
-    margin: auto;
+.Container {
+    display: grid;
+    grid-template-columns: 50% 50%;
     justify-content: center;
-    
 }
 
 .description {
-    width: 30%;
+    border-radius: 20px;
     height: 5em;
     overflow-wrap: break-word;
+    width: 100%;
+
+}
+
+.descriptionContainer {
+    display: grid;
+    grid-template-columns: 25% 75%;
+}
+
+.createActivityButton {
+    width: 20em;
+    height: 3em;
+    border-radius: 20px;
+    display: inline;
+    text-align: center;
+    
 }
 
 
-#createActivityButton {
-    width: 20em;
-    height: 3em;
+.inputName,
+.inputDuration,
+.inputDificulty,
+.inputSeason {
+    height: 2em;
+    width: 100%;
     border-radius: 20px;
 }
 
 
-
-input:invalid:required {
-    border-color: brown;
-    border-width: 3px;
-    color: aliceblue;
-    
-}
-
-
-
-input:invalid {
-    background-color: rgba(220, 20, 60, 0.137);
-}
-
-input:valid {
-    border-color: green;
-    border-width: 3px;
-    
-}
-
-
-select:required {
-    border-color: brown;
-}
-
-select:valid {
-    border-color: aquamarine;
-}
 
 .inputCheckbox,
 .label {

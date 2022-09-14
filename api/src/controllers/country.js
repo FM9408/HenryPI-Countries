@@ -1,5 +1,5 @@
 const { Country, Activity} = require('../db.js');
-const {Op} = require('sequelize')
+const {Op, fn} = require('sequelize')
 const axios = require('axios');
 const {API_ALL} = process.env;
 
@@ -39,7 +39,9 @@ async function WriteDatabase() {
                 population: e.population,
                 continents: e.continents,
                 official: e.translations.spa.official,
-                languages: languagues
+                languages: languagues,
+                nameENG: e.name.common,
+                officialENG: e.name.official
             },
             include: Activity
         })
@@ -58,9 +60,29 @@ async function allCountries(req, res) {
         } else {
             let queryCountries = await Country.findAll({
                 where: {
-                    name: {
-                        [Op.iLike]: `%${name}%`
-                    },
+                    [Op.or]: [
+                        {
+                            name: {
+                                [Op.iLike]: `%${name}%`,
+                            },
+                        },
+                        {
+                            official: {
+                                [Op.iLike]: `%${name}%`
+                            }
+                        },
+                        {
+                            nameENG: {
+                                [Op.iLike]: `%${name}%`
+                            }
+                        },
+                        {
+                            officialENG: {
+                                [Op.iLike]: `%${name}%`
+                            }
+                        },
+                        
+                    ]   
                 },
                 include: Activity
             });
