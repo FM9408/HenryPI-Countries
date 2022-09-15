@@ -9,7 +9,7 @@ function CountryCard({name, flag, continent, id}) {
         <div className="cards">
             {
                 (flag)?(
-                    <Link className='cardLink' to={`/country/${id}`}>
+                    <Link className='cardLink' to={`/countries/${id}`}>
             <div className="countryCard">
             <div className="countryCardContent">
                 <div className="countryCardImageContainer">

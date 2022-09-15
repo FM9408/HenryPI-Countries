@@ -10,7 +10,7 @@ function Navbar ({handleSubmit,  onInput}) {
     return (
         <div id="navbar">
             <div className="navbarItem">
-                <Link className='navbarLink' to='/home'>Home</Link>
+                <Link className='navbarLink' to='/countries/home'>Home</Link>
             </div>
             <div className="navbarItem">
                 <Link to={`/countries/unknow/addActivity`} className="navbarLink">Agregar Actividad turistica</Link>

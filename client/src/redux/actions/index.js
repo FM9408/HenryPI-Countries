@@ -25,7 +25,7 @@ export  function getAllCountries() {
 
 export  function searchCountryByName(name) {
     if(name === '') {
-        getAllCountries()
+        return getAllCountries()
     } else {
         return  function(dispatch) {
 
@@ -63,6 +63,9 @@ export function getCountryDetail(id) {
                 payload: response.data
             })
         })
+        .catch(err => {
+            return err.response.data.err
+        })
         
     }
 }
@@ -88,8 +91,8 @@ export function orderAsentByName() {
 }
 
 export function filterByContinent(continent) {
-    if(!continent) {
-       getAllCountries()
+    if(!continent || continent === '') {
+       return getAllCountries()
     } else {
         return {
             type: FILTER_BY_CONTINENTS,
@@ -121,10 +124,10 @@ export  function newActivity(info) {
             id: info.id,
             type: info.type
         })
-        window.location.replace('/country/' + info.id[0])
+       
         
         } catch (error) {
-            
+            throw new ErrorEvent(error.response.data.err)
         }
     }
     

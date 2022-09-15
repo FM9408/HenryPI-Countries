@@ -4,6 +4,8 @@
     text-align: center;
     
 }
+
+
 .paginationButtons {
     width: 100%;
     height: fit-content;
@@ -54,12 +56,6 @@
   animation-timing-function:ease;
   animation-fill-mode: backwards;
 }
-
-.navbarContainer {
-    width: 100%;
-    margin: auto;
-    margin-bottom: 10px;
-  }
 
 .filtersAndOrders{
     display: inline-flex;
@@ -143,3 +139,6 @@
     }
     
   }
+
+
+  

@@ -5,6 +5,7 @@ import TemporalScreen from './components/pages/temporalScreen/temporalScreen';
 import Hompage from './components/pages/homepage/homepage';
 import CountryPage from './components/pages/countryPage/countryPage';
 import AddActivity from './components/pages/addactivityPage/addActivity';
+import Navbar from './components/individualComponents/navbar/navbar';
 function App() {
   let history = useHistory()
 
@@ -12,14 +13,20 @@ function App() {
   return (
     <div className="App">
       <Router history={history}>
+          <Route path='/countries'>
+            <Navbar />
+          </Route>
+
       <Switch  >
         <Route exact path='/'>
           <TemporalScreen />
         </Route>
-        <Route exact path='/home'>
+        
+     
+        <Route exact path='/countries/home'>
           <Hompage />
         </Route>
-        <Route exact path='/country/:id'>
+        <Route exact path='/countries/:id'>
           <CountryPage />
         </Route>
         <Route path='/countries/:id/addActivity'>

@@ -111,9 +111,14 @@ async function getCountryById(req, res) {
             },
             include: Activity
         });
+        if(country === null){
+            throw ErrorEvent(404)
+        }
         return res.json(country)
     } catch (error){
-        res.send(error)
+        let err= {err: 'País no encontrado'}
+        res.status(404).send(err)
+        
     }
 }
 

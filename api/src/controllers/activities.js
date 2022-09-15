@@ -3,7 +3,8 @@ const {Op} = require('sequelize')
 
 
 async function newAct(req, res) {
-    let {name, dificulty, duration, season, id, description, type} = req.body;
+    try {
+        let {name, dificulty, duration, season, id, description, type} = req.body;
     
     let validate =  await Activity.findOne({
         where: {
@@ -12,7 +13,9 @@ async function newAct(req, res) {
     });
 
     if(!validate) {
-        
+        if(description === undefined) {
+            description = null
+        }
         let addActivity = await Activity.create({
             name: name,
             dificulty: dificulty,
@@ -37,11 +40,18 @@ async function newAct(req, res) {
     });
 
     let response = await validate.addCountries(countryMatch)
-    res.send(response)
+    res.staus(201).send(response)
+    } catch (error) {
+        let err = {
+            err: error.message
+        }
+        res.status(409).json({err: 'Alguno de los campos no fue rellenado'})
+    }
 }
 
 async function getAllActivities(req, res) {
-    let {type} = req.query
+    try {
+        let {type} = req.query
     let json = {
         activities: []
     }
@@ -57,8 +67,11 @@ async function getAllActivities(req, res) {
             }
 
         })
-        res.send(json)
+        res.status(200).send(json)
         
+    }
+    } catch (error) {
+        res.status(404).json({err: 'No encontrado'})
     }
 }
 

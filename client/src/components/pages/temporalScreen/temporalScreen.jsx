@@ -12,7 +12,7 @@ function TemporalScreen() {
         <div className="temporalScreen">
             <img className='temporalImage' src={TemporalImage} alt='Imagen temporal' />
             <div className="buttonContainer">
-                <Link to='/home'>
+                <Link to='/countries/home'>
                     <button id="enterButton">Entrar</button>
                 </Link>
             </div>

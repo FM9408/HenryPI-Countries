@@ -1,8 +1,7 @@
 import React from "react";
 import { connect, useSelector } from "react-redux";
-import { Link, useParams } from "react-router-dom";
+import { Link, Redirect, useParams } from "react-router-dom";
 import { getCountryDetail } from "../../../redux/actions";
-import Navbar from "../../individualComponents/navbar/navbar";
 import './countryPage.css'
 
 
@@ -11,6 +10,7 @@ import './countryPage.css'
 function CountryPage(props) {
     let countryById = useSelector((state) => state.countryDetail)
     let {id} = useParams()
+    let input = useSelector(state => state.input)
    
     React.useEffect(() => {
         props.getCountryDetail(id)
@@ -22,14 +22,13 @@ function CountryPage(props) {
    
 
     return(
-        <div className="pageContainer">
-             <div className="navbarContainer">
-                        <Navbar />
-             </div>
+        <div>
+            {
+                input === true ? (
+                    <Redirect to='/countries/home' />
+                ): (
+                    <div className="pageContainer">
             <div className="countryPageContainer">
-             <Link to='/home'>
-             <button >{'<'}</button>
-             </Link>
                 <div className="flagContainer">
                     <img src={countryById.flag} className='flagImage' alt="" />
                 </div>
@@ -113,14 +112,24 @@ function CountryPage(props) {
                         )
                     }
                 </div>
-                    <div style={{marginTop: '5px'}}>
-                    <Link to={`/countries/${countryById.id}/addActivity`} className="touristActivityLink">
-                        <button className="touristActivityButton"> <p className="text">Agregar Actividad turistica</p> </button>
-                    </Link>
+                    <div style={{marginTop: '5px', display:'inline-flex', width:'100%', justifyContent:'center'}}>
+                        <div style={{padding:'1%'}}>
+                            <Link to={`/countries/${countryById.id}/addActivity`} className="touristActivityLink">
+                                <button className="touristActivityButton"> <p className="text">Agregar Actividad turistica</p> </button>
+                            </Link>
+                        </div>
+                        <div style={{padding:'1%'}}>
+                            <Link to='/countries/home' className="touristActivityLink">
+                                <button className='touristActivityButton'><p className="text">Regresar</p></button>
+                            </Link>
+                        </div>
                     </div>
                 </div>
                 
             </div>
+        </div>
+                )
+            }
         </div>
     )
 }

@@ -3,14 +3,13 @@ import { connect, useSelector } from "react-redux";
 import {useParams, useHistory} from "react-router-dom";
 import { getAllCountries, getCountryDetail,  newActivity} from "../../../redux/actions";
 import './addActivity.css'
-import Navbar from "../../individualComponents/navbar/navbar";
 import { seasons, duration, dificulty, types } from "../homepage/homepage";
 
 
 
 
 function AddActivity(props) {
-    
+    let [errors, setErrors] = React.useState('')
     let [validForm, validFormSet] = React.useState(false)
     let {id} = useParams();
     let history = useHistory()
@@ -62,62 +61,76 @@ function AddActivity(props) {
 
         }
         
-    }, [countries, fromCountry])
+    }, [countries, fromCountry, id])
 
+    function validation(input) {
+        if(input.name.length >= 3  && input.name.length < 20) {
+            if(input.duration.length !== 0) {
+                if(input.id.length !==0 && !input.id.includes('unknow') ) {
+                    if(input.season.length !== 0) {
+                        if(input.type.length !== 0) {
+                            if (input.dificulty.length !== 0 ) {
+                               return  validFormSet(true)
+                            }
+                        }
+                    }
+                    
+                } 
+            }
+        }
+        validFormSet(false)
+    }
     
     function countrySelection(e) {
         if(input.id[0] === 'unknow') {
             input.id.shift()
         }
         if(!input.id.includes(e.target.value)) {
-
+            
             setInput({
                 ...input,
-                   id: input.id.concat(e.target.value)
+                id: input.id.concat(e.target.value)
+            })
+            validation({
+                ...input,
+                [e.target.name]: e.target.value
             })
         }
-        if(input.id.includes((e.target.value))) {
-           
+        else {
+            
             setInput({
                 ...input,
                 id: input.id.filter(f => f !== e.target.value)
             })
+            validation({
+                ...input,
+                [e.target.name]: e.target.value
+            })
+           
         }
+
+
+        
     }
     
 
-    function validation(input) {
-        if(input.name.length >3 && input.name.length < 20) {
-            if(input.duration !== '') {
-                if(input.id.length !== 0 ) {
-                    if(input.description.length > 80 && input.description.length <= 255) {
-                        if(input.season.length !== 0) {
-                            if(input.type.length !==0) {
-                                if (input.dificulty.length !== 0) {
-                                    validFormSet(true)
-                                }
-                            }
-                        }
-                    }
-                } 
-            }
-        }
-    }
     
-    function onInputChange(e) {
-        
+    function onInputChange(e) { 
+       
         setInput({
             ...input,
             [e.target.name]: e.target.value
         })
-
-       validation(input) 
         
+        return validation({
+            ...input,
+            [e.target.name]: e.target.value
+        })
+       
 
     }
 
     function onTypeInput(e) {
-        
         if(input.type.includes(e.target.value)){
             setInput({
                 ...input,
@@ -125,12 +138,18 @@ function AddActivity(props) {
             })
         }
         else {
-
+            
             setInput({
                 ...input,
                 type: input.type.concat(e.target.value)
             })
         }
+
+
+        return validation({
+            ...input,
+            [e.target.name]: e.target.value
+        })
     }
     
 
@@ -140,9 +159,20 @@ function AddActivity(props) {
         e.preventDefault()
         try {
             let respuesta = await props.newActivity(input)
-            return respuesta
+            setInput({
+                name: '',
+                season: '',
+                dificulty:  '',
+                duration: '',
+                description: '',
+                id: [],
+                type: []
+            })
         } catch (error) {
-            return error
+            setErrors(error.type)
+            setTimeout(() => {
+                setErrors('')
+            }, 5000)
         }
         
         
@@ -150,8 +180,19 @@ function AddActivity(props) {
    
     return (
         <div className="pageContainer">
-            <Navbar />
             <div className="AddActContainer" >
+                {
+                    errors.length > 0 ? (
+                        <div>
+                            <h1>Agrega una nueva activadad a algun país</h1>
+                            <h2 className="error">{errors}</h2>
+                        </div>
+                    ):(
+                        <div>
+                            <h1>Agrega una nueva activadad a algun país</h1>
+                        </div>
+                    )
+                }
             <form className="addNewActivityForm" action="POST"  >
             <div >
             {
@@ -197,7 +238,7 @@ function AddActivity(props) {
                     </div>
                     
                 ): (
-                    <h4 className="text">{fromCountry.name}</h4>
+                    <h1 className="text">{fromCountry.name}</h1>
                 )
             }
             </div>
@@ -260,7 +301,7 @@ function AddActivity(props) {
             </div>
             <div className="descriptionContainer">
                 <label htmlFor="description">Describre brevemente la actividad: </label>
-                <input autoComplete="off"  required className='description' name='description' type="text" onChange={(e)=> onInputChange(e)} value={input.description} maxLength={255} minLength={80} placeholder='la descripcion debe de tener al menos 80 caracteres  y maximo 255'  id='descrption'/>
+                <input autoComplete="off" className='description' name='description' type="text" onChange={(e)=> onInputChange(e)} value={input.description} maxLength={255} minLength={80} placeholder='la descripcion debe de tener al menos 80 caracteres  y maximo 255'  id='descrption'/>
             </div>
             <div>
                 {

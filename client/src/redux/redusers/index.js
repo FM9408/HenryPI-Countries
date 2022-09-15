@@ -5,7 +5,9 @@ let initialState = {
     countryDetail: {},
     popOrder: '',
     entry: false,
-    activity: ''
+    activity: '',
+    input: false,
+    continent: ''
 }
 
 
@@ -19,19 +21,22 @@ export default function  rootReducer(state = initialState, action) {
                 countries: action.payload,
                 popOrder: 'Ningún orden',
                 entry: true,
-                activity: ''
+                activity: '',
+                countinent: ''
             }
           }
            case GET_COUNTRY_NAME: {
+               state.input = true
             return {
                 ...state,
-                countries: action.payload
+                countries: action.payload,
             }
            }
            case GET_COUNTRY_BY_ID: {
+               state.input = false
             return {
                 ...state,
-                countryDetail: action.payload
+                countryDetail: action.payload,
             }
            } 
            case  ORDER_ASEN_BY_POP: {
@@ -86,8 +91,8 @@ export default function  rootReducer(state = initialState, action) {
            case FILTER_BY_CONTINENTS: {
                 return {
                     ...state,
-                    countries: state.countries.filter(e => e.continents.includes(action.payload))
-
+                    countries: state.countries.filter(e => e.continents.includes(action.payload)),
+                    countinent: action.payload
                     
                 }
            }

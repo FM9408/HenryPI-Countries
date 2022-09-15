@@ -21,7 +21,7 @@ module.exports = (sequelize) => {
         },
         description: {
             type: DataTypes.CHAR({length: 255}),
-            allownull: false
+            allownull: true
         },
         type: {
             type: DataTypes.ARRAY(DataTypes.STRING),
